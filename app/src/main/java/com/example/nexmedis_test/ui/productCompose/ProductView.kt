@@ -2,6 +2,7 @@ package com.example.nexmedis_test.ui.productCompose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -35,11 +36,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
+import com.example.nexmedis_test.R
 import com.example.nexmedis_test.database.queryModel.ProductWithFavouriteEntity
 import com.example.nexmedis_test.feature.product.viewModel.ProductViewModel
 import kotlinx.coroutines.flow.Flow
@@ -51,6 +54,19 @@ class ProductView {
         val lazyPagingItems = pagingData?.collectAsLazyPagingItems()
         val listState = rememberLazyListState()
 
+        if ((lazyPagingItems?.itemCount ?: 0) < 1){
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "No products available.",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.Gray,
+                )
+            }
+        }
+
         LazyColumn(
             state = listState,
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -58,7 +74,7 @@ class ProductView {
             contentPadding = PaddingValues( 8.dp)
         ) {
             items(lazyPagingItems?.itemCount ?: 0, key = { index ->
-                lazyPagingItems?.get(index)?.id ?: 0 // Use unique id as key
+                lazyPagingItems?.get(index)?.id ?: 0
             }) { index ->
                 val product = lazyPagingItems?.get(index)
 
@@ -122,12 +138,13 @@ class ProductView {
             ) {
 
                 Image(
-                    painter = rememberAsyncImagePainter(product.image), // Replace with actual image URL field
+                    painter = rememberAsyncImagePainter(product.image,
+                        placeholder = painterResource(id = R.drawable.images_placeholder)),
                     contentDescription = "Product Image",
                     modifier = Modifier
                         .fillMaxHeight()
                         .size(64.dp)
-                        .clip(RoundedCornerShape(8.dp)), // Optional for rounded corners
+                        .clip(RoundedCornerShape(8.dp)),
                     contentScale = ContentScale.Crop
                 )
                 Column(

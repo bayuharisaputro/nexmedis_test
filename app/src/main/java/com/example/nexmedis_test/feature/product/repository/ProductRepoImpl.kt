@@ -22,17 +22,16 @@ class ProductRepoImpl @Inject constructor(
     private val networkUtils: NetworkUtils
 ) : ProductRepo {
 
-    override suspend fun getAllProductsLocal(): Pager<Int, ProductWithFavouriteEntity> =
+    override suspend fun getAllProductsLocal(query: String): Pager<Int, ProductWithFavouriteEntity> =
         withContext(Dispatchers.IO) {
             try {
                 val pager = Pager(
                     config = PagingConfig(
                         pageSize = 5,
                         enablePlaceholders = false,
-                        initialLoadSize = 5,
-                        prefetchDistance = 2,
+                        initialLoadSize = 10
                     ),
-                    pagingSourceFactory = { localDataStore.getAllProductsLocal() }
+                    pagingSourceFactory = { localDataStore.getAllProductsLocal(query) }
                 )
 
                 return@withContext pager
@@ -62,17 +61,16 @@ class ProductRepoImpl @Inject constructor(
         }
 
 
-    override suspend fun getAllProductsFavourite():  Pager<Int, ProductWithFavouriteEntity> =
+    override suspend fun getAllProductsFavourite(query: String):  Pager<Int, ProductWithFavouriteEntity> =
         withContext(Dispatchers.IO) {
             try {
                 val pager = Pager(
                     config = PagingConfig(
                         pageSize = 5,
                         enablePlaceholders = false,
-                        initialLoadSize = 5,
-                        prefetchDistance = 2,
+                        initialLoadSize = 10,
                     ),
-                    pagingSourceFactory = { localDataStore.getAllProductsFavourite() }
+                    pagingSourceFactory = { localDataStore.getAllProductsFavourite(query) }
                 )
 
                 return@withContext pager
