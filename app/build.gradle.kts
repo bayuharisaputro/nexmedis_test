@@ -88,6 +88,7 @@ dependencies {
     implementation(libs.compose.paging)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.compose.coil)
+    implementation(libs.accompanistSwipereRefresh)
 
     debugImplementation(libs.chuckerDebug)
     releaseImplementation(libs.chuckerRelease)

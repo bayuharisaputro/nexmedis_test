@@ -1,12 +1,10 @@
 package com.example.nexmedis_test.feature.product.datastore
 
-import android.util.Log
 import androidx.paging.PagingSource
 import com.example.nexmedis_test.database.dao.ProductDao
 import com.example.nexmedis_test.database.queryModel.ProductWithFavouriteEntity
 import com.example.nexmedis_test.database.table.ProductEntity
 import com.example.nexmedis_test.database.table.ProductFavouriteEntity
-import com.example.nexmedis_test.handler.ResponseState
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,9 +13,9 @@ class ProductLocalDataStoreImpl @Inject constructor(
     private val productDAO: ProductDao,
 ) : ProductLocalDataStore {
 
-    override fun getAllProductsLocal(): PagingSource<Int, ProductWithFavouriteEntity> {
+    override fun getAllProductsLocal(query: String): PagingSource<Int, ProductWithFavouriteEntity> {
         return try {
-            productDAO.getAllProductWithFavouriteModifier()
+            productDAO.getAllProductWithFavouriteModifier(query)
         } catch (e: Exception) {
             throw e
         }
@@ -31,9 +29,9 @@ class ProductLocalDataStoreImpl @Inject constructor(
         }
     }
 
-    override fun getAllProductsFavourite(): PagingSource<Int, ProductWithFavouriteEntity> {
+    override fun getAllProductsFavourite(query: String): PagingSource<Int, ProductWithFavouriteEntity> {
         return try {
-            productDAO.getAllProductFavourite()
+            productDAO.getAllProductFavourite(query)
         } catch (e: Exception) {
             throw e
         }

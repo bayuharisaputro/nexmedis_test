@@ -2,6 +2,7 @@ package com.example.nexmedis_test.ui.productCompose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -50,6 +51,19 @@ class ProductView {
     fun ProductList(pagingData: Flow<PagingData<ProductWithFavouriteEntity>>?, viewModel: ProductViewModel) {
         val lazyPagingItems = pagingData?.collectAsLazyPagingItems()
         val listState = rememberLazyListState()
+
+        if ((lazyPagingItems?.itemCount ?: 0) < 1){
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "No products available.",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.Gray,
+                )
+            }
+        }
 
         LazyColumn(
             state = listState,

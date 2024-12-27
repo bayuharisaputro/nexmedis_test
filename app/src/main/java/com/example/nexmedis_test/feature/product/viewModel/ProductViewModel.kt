@@ -12,6 +12,8 @@ interface ProductViewModel {
 
     val liveDataToggleFavorite: LiveData<BaseLiveDataState<ProductWithFavouriteEntity>>
 
-    fun getProductList(isFavorite: Boolean = false)
+    val liveDataLoadingServerSync: LiveData<BaseLiveDataState<Boolean>>
+
+    fun getProductList(isFavorite: Boolean = false,  queryTitle: String = "")
     fun updateFavoriteProduct(product: ProductWithFavouriteEntity)
 }

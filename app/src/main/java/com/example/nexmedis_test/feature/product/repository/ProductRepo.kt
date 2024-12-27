@@ -8,8 +8,8 @@ import com.example.nexmedis_test.handler.ResponseState
 import kotlinx.coroutines.flow.Flow
 
 interface ProductRepo {
-    suspend fun getAllProductsLocal(): Pager<Int, ProductWithFavouriteEntity>
+    suspend fun getAllProductsLocal(query: String = ""): Pager<Int, ProductWithFavouriteEntity>
     suspend fun downloadProductFromServer(): ResponseState<Boolean>
-    suspend fun getAllProductsFavourite(): Pager<Int, ProductWithFavouriteEntity>
+    suspend fun getAllProductsFavourite(query: String = ""): Pager<Int, ProductWithFavouriteEntity>
     suspend fun toggleFavoriteProduct(productId :Int): ResponseState<Boolean>
 }
